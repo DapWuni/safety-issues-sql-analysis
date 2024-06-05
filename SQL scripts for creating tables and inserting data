@@ -1,0 +1,19 @@
+# Prepare the data for SQL insert statements
+df = excel_data.parse(sheet_names[0])
+insert_statements = []
+
+for index, row in df.iterrows():
+    assigned_to = row['Assigned to'] if pd.notnull(row['Assigned to']) else 'NULL'
+    due_date = row['Due date']
+    priority = row['Priority']
+    location = row['Location']
+    opened_by = row['Opened by']
+    short_description = row['Short description'].replace("'", "''")  # Handle single quotes in text
+    state = row['State']
+    category = row['Category']
+    insert_statement = f"INSERT INTO safety_issues (assigned_to, due_date, priority, location, opened_by, short_description, state, category) VALUES ('{assigned_to}', '{due_date}', '{priority}', '{location}', '{opened_by}', '{short_description}', '{state}', '{category}');"
+
+    insert_statements.append(insert_statement)
+
+# Display the first few insert statements
+insert_statements[:5]
